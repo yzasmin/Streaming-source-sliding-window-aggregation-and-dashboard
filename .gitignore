@@ -1,0 +1,14 @@
+# Fichiers systèmes et python
+__pycache__/
+*.pyc
+.DS_Store
+.env
+
+# Données locales de la base de données (générées par Docker)
+data/
+postgres-data/
+
+# Environnements virtuels
+venv/
+env/
+.venv/

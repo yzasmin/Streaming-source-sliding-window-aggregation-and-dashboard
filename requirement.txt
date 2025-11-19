@@ -1,0 +1,7 @@
+kafka-python==2.0.2
+requests
+streamlit
+pandas
+psycopg2-binary
+plotly
+apache-flink==1.18.0

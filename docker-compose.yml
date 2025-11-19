@@ -1,0 +1,100 @@
+networks:
+  data-network:
+    driver: bridge
+
+services:
+  # ------------------------------------------------------------
+  # 1. REDPANDA (Broker de messages)
+  # ------------------------------------------------------------
+  redpanda:
+    # CHANGEMENT ICI : Nouvelle adresse de l'image officielle
+    image: redpandadata/redpanda:latest
+    container_name: redpanda
+    command:
+      - redpanda
+      - start
+      - --smp 1
+      - --memory 1G
+      - --reserve-memory 0M
+      - --overprovisioned
+      - --node-id 0
+      - --check=false
+      - --kafka-addr internal://0.0.0.0:19092,external://0.0.0.0:9092
+      - --advertise-kafka-addr internal://redpanda:19092,external://localhost:9092
+      - --pandaproxy-addr internal://0.0.0.0:8082,external://0.0.0.0:8083
+      - --advertise-pandaproxy-addr internal://redpanda:8082,external://localhost:8083
+    ports:
+      - "9092:9092"
+      - "19092:19092"
+      - "9644:9644"
+    networks:
+      - data-network
+
+  # Interface graphique
+  redpanda-console:
+    # CHANGEMENT ICI : Nouvelle adresse de l'image console
+    image: redpandadata/console:latest
+    container_name: redpanda-console
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_BROKERS: redpanda:19092
+    depends_on:
+      - redpanda
+    networks:
+      - data-network
+
+  # ------------------------------------------------------------
+  # 2. APACHE FLINK
+  # ------------------------------------------------------------
+  jobmanager:
+    image: flink:1.18-java11
+    container_name: flink-jobmanager
+    ports:
+      - "8081:8081"
+    command: jobmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+    networks:
+      - data-network
+    # AJOUT ICI : On monte le dossier flink_app dans le conteneur
+    volumes:
+      - ./flink_app:/opt/flink/usrlib
+
+  taskmanager:
+    image: flink:1.18-java11
+    container_name: flink-taskmanager
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 2
+    networks:
+      - data-network
+
+    # AJOUT ICI : Idem pour le taskmanager
+    volumes:
+      - ./flink_app:/opt/flink/usrlib
+
+      
+  # ------------------------------------------------------------
+  # 3. POSTGRESQL
+  # ------------------------------------------------------------
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: air_quality_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - data-network
