@@ -1,9 +1,9 @@
-# 🌍 Air Quality Streaming Pipeline
+# Air Quality Streaming Pipeline
 
 Projet d'architecture Big Data en temps Réel.
 Ce projet récupère les données de qualité de l'air (Open-Meteo), les traite en flux continu (Flink) et les visualise (Streamlit).
 
-## 🏗 Architecture
+## Architecture
 
 1.  **Source** : API Open-Meteo (Simulée par `producer.py`)
 2.  **Broker** : Redpanda (Compatible Kafka)
@@ -11,7 +11,7 @@ Ce projet récupère les données de qualité de l'air (Open-Meteo), les traite 
 4.  **Storage** : PostgreSQL
 5.  **Viz** : Streamlit
 
-## 🚀 Installation
+## Installation
 
 ### 1. Prérequis
 * Docker & Docker Compose
