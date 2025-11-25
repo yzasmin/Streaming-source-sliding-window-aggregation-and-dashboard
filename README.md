@@ -1,4 +1,4 @@
-# 🌍 Pipeline de Streaming Big Data : Surveillance de la Qualité de l'Air
+# Pipeline de Streaming Big Data : Surveillance de la Qualité de l'Air
 
 ![Badge Flink](https://img.shields.io/badge/Apache_Flink-1.18-E6526F?style=for-the-badge&logo=apacheflink)
 ![Badge Redpanda](https://img.shields.io/badge/Redpanda-Streaming-orange?style=for-the-badge)
@@ -11,7 +11,7 @@
 
 ---
 
-## 📑 Table des Matières
+## Table des Matières
 1. [Introduction et Objectifs](#-1-introduction-et-objectifs)
 2. [Architecture Technique](#-2-architecture-technique)
 3. [Implémentation et Choix Techniques](#-3-implémentation-et-choix-techniques)
@@ -21,14 +21,14 @@
 
 ---
 
-## 🧐 1. Introduction et Objectifs
+## 1. Introduction et Objectifs
 
 La surveillance de la qualité de l'air est critique pour la santé publique. Les systèmes traditionnels (Batch) analysent les données avec trop de latence. L'objectif de ce projet est de construire une **pipeline de traitement en temps réel** capable de :
 1.  **Ingérer** des flux de données simulés réalistes (API Open-Meteo).
 2.  **Traiter** ces flux pour lisser les variations via des fenêtres temporelles (Windowing).
 3.  **Visualiser** les résultats instantanément sur un dashboard interactif.
 
-### 🎯 Livrables du projet
+### Livrables du projet
 Ce projet répond aux exigences suivantes :
 - [x] Application de Streaming complète.
 - [x] Dashboard interactif temps réel.
@@ -37,7 +37,7 @@ Ce projet répond aux exigences suivantes :
 
 ---
 
-## 🏗 2. Architecture Technique
+## 2. Architecture Technique
 
 Nous avons opté pour une **Architecture Kappa** simplifiée, où toutes les données sont traitées comme un flux continu.
 
