@@ -50,13 +50,24 @@ graph LR
     D -->|Agrégation SQL| E[(PostgreSQL)]
     E -->|Query| F[Streamlit Dashboard]
 ```
-## Architecture
 
-1.  **Source** : API Open-Meteo (Simulée par `producer.py`)
-2.  **Broker** : Redpanda (Compatible Kafka)
-3.  **Processing** : Apache Flink (Agrégations fenêtrées)
-4.  **Storage** : PostgreSQL
-5.  **Viz** : Streamlit
+## 3. Implémentation et Choix Techniques
+### 3.1 Générateur de Données (Reproducible Synthetic Generator)
+Le script producer.py agit comme un générateur hybride :
+
+- [x] Données Réelles : Il interroge l'API Open-Meteo pour obtenir les conditions de base (Paris, Lyon, Marseille).
+
+- [x] Variation Synthétique : Un bruit gaussien est injecté pour simuler la variabilité des capteurs IoT.
+
+### 3.2 Stratégie de Fenêtrage (Windowing)
+
+### 3.3 Gestion du Temps (Event Time & Watermarks)
+Le système est basé sur le temps de l'événement (timestamp_event) et non le temps de traitement, avec une tolérance de 5 secondes pour gérer les retards réseau.
+
+## 4. Analyse des Performances
+
+
+
 
 ## Installation
 
