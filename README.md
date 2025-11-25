@@ -66,10 +66,21 @@ Le système est basé sur le temps de l'événement (timestamp_event) et non le 
 
 ## 4. Analyse des Performances
 
+## 5. Structure du Projet
+├── flink_app/                 # Dossier monté dans le conteneur Flink
+│   ├── processor.py           # Logique de traitement Flink (Windowing, SQL)
+│   └── *.jar                  # Connecteurs Kafka et JDBC (Versions strictes 1.18)
+│
+├── producer.py                # Script d'ingestion (API Open-Meteo -> Redpanda)
+├── dashboard.py               # Interface de visualisation Streamlit
+├── docker-compose.yml         # Orchestration de l'infrastructure (Redpanda, Flink, Postgres)
+├── requirements.txt           # Dépendances Python
+└── README.md                  # Ce rapport
 
 
 
-## Installation
+
+## 6. Installation
 
 ### 1. Prérequis
 * Docker & Docker Compose
