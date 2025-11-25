@@ -55,9 +55,8 @@ graph LR
 ### 3.1 Générateur de Données (Reproducible Synthetic Generator)
 Le script producer.py agit comme un générateur hybride :
 
-- [x] Données Réelles : Il interroge l'API Open-Meteo pour obtenir les conditions de base (Paris, Lyon, Marseille).
-
-- [x] Variation Synthétique : Un bruit gaussien est injecté pour simuler la variabilité des capteurs IoT.
+ * Données Réelles : Il interroge l'API Open-Meteo pour obtenir les conditions de base (Paris, Lyon, Marseille).
+ * Variation Synthétique : Un bruit gaussien est injecté pour simuler la variabilité des capteurs IoT.
 
 ### 3.2 Stratégie de Fenêtrage (Windowing)
 
