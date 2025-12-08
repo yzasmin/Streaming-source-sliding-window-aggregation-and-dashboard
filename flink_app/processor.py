@@ -35,6 +35,17 @@ def main():
         pm10 DOUBLE,
         ozone DOUBLE,
         timestamp_ingestion BIGINT,
+
+        no2 DOUBLE,
+        co DOUBLE,
+        co2 DOUBLE,
+        so2 DOUBLE,
+        aod DOUBLE,
+        dust DOUBLE,
+        uv_index DOUBLE,
+        uv_clear_sky DOUBLE,
+        ch4 DOUBLE,
+        
         ts AS TO_TIMESTAMP_LTZ(timestamp_ingestion, 3),
         WATERMARK FOR ts AS ts - INTERVAL '5' SECOND
     ) WITH (
@@ -56,6 +67,17 @@ def main():
         avg_pm2_5 DOUBLE,
         avg_pm10 DOUBLE,
         max_ozone DOUBLE,
+        
+        avg_no2 DOUBLE,
+        avg_co DOUBLE,
+        avg_co2 DOUBLE,
+        avg_so2 DOUBLE,
+        avg_aod DOUBLE,
+        avg_dust DOUBLE,
+        avg_uv_index DOUBLE,
+        avg_uv_clear_sky DOUBLE,
+        avg_ch4 DOUBLE,
+        
         record_count BIGINT,
         PRIMARY KEY (city, window_end) NOT ENFORCED
     ) WITH (
@@ -79,6 +101,17 @@ def main():
         AVG(pm2_5) as avg_pm2_5,
         AVG(pm10) as avg_pm10,
         MAX(ozone) as max_ozone,
+        
+        AVG(no2) as avg_no2,
+        AVG(co) as avg_co,
+        AVG(co2) as avg_co2,
+        AVG(so2) as avg_so2,
+        AVG(aod) as avg_aod,
+        AVG(dust) as avg_dust,
+        AVG(uv_index) as avg_uv_index,
+        AVG(uv_clear_sky) as avg_uv_clear_sky,
+        AVG(ch4) as avg_ch4,
+        
         COUNT(*) as record_count
     FROM TABLE(
         HOP(

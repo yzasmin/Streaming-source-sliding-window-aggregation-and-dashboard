@@ -28,7 +28,7 @@ def get_air_quality(city_name, lat, lon):
         params = {
             "latitude": lat,
             "longitude": lon,
-            "current": "pm10,pm2_5,nitrogen_dioxide,ozone", # On demande les valeurs actuelles
+            "current": "pm10,pm2_5,nitrogen_dioxide,ozone,carbon_monoxide,carbon_dioxide,sulphur_dioxide,aerosol_optical_depth,dust,uv_index,uv_index_clear_sky,methane", # On demande les valeurs actuelles
             "timezone": "Europe/Paris"
         }
         response = requests.get(API_URL, params=params)
@@ -38,22 +38,30 @@ def get_air_quality(city_name, lat, lon):
         current = data.get('current', {})
         
         # Construction du message JSON
-        # Note : J'ajoute un petit random.uniform pour simuler la fluctuation du capteur
-        # sinon le graphique sera plat pendant 1h.
+        # random.uniform pour simuler la fluctuation du capteur sinon le graphique sera plat pendant 1h.
         message = {
             "city": city_name,
             "latitude": lat,
             "longitude": lon,
             "timestamp_event": current.get('time'),
             
-            # --- CORRECTION ICI : On multiplie par 1000 ---
+            # --- On multiplie par 1000 pour correspondre à Flink qui prend en milliseconde ---
             "timestamp_ingestion": int(time.time() * 1000), 
             # ----------------------------------------------
             
             "pm10": current.get('pm10') + random.uniform(-0.5, 0.5), 
             "pm2_5": current.get('pm2_5') + random.uniform(-0.2, 0.2),
             "no2": current.get('nitrogen_dioxide') + random.uniform(-0.5, 0.5),
-            "ozone": current.get('ozone') + random.uniform(-1.0, 1.0)
+            "ozone": current.get('ozone') + random.uniform(-1.0, 1.0),
+
+            "co": current.get('carbon_monoxide', 0) + random.uniform(-2.0, 2.0),      # Monoxyde de carbone
+            "co2": current.get('carbon_dioxide', 0) + random.uniform(-1.0, 1.0),      # Dioxyde de carbone
+            "so2": current.get('sulphur_dioxide', 0) + random.uniform(-0.1, 0.1),     # Dioxyde de soufre
+            "aod": current.get('aerosol_optical_depth', 0) + random.uniform(-0.01, 0.01), # AOD (Optique)
+            "dust": current.get('dust', 0) + random.uniform(-0.5, 0.5),               # Poussière
+            "uv_index": current.get('uv_index', 0) + random.uniform(-0.1, 0.1),       # Index UV - a corriger
+            "uv_clear_sky": current.get('uv_index_clear_sky', 0) + random.uniform(-0.1, 0.1), # UV Ciel clair - a corriger
+            "ch4": current.get('methane', 0) + random.uniform(-1.0, 1.0)
         }
         return message
         
