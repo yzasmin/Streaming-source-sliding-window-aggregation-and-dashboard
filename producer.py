@@ -60,7 +60,7 @@ def get_air_quality(city_name, lat, lon):
             "aod": current.get('aerosol_optical_depth', 0) + random.uniform(-0.01, 0.01), # AOD (Optique)
             "dust": current.get('dust', 0) + random.uniform(-0.5, 0.5),               # Poussière
             "uv_index": current.get('uv_index', 0) + random.uniform(-0.1, 0.1),       # Index UV - a corriger
-            "uv_clear_sky": current.get('uv_index_clear_sky', 0) + random.uniform(-0.1, 0.1), # UV Ciel clair - a corriger
+            "uv_clear_sky": current.get('uv_index_clear_sky', 0) + random.uniform(-0.1, 0.1), # UV Ciel clair
             "ch4": current.get('methane', 0) + random.uniform(-1.0, 1.0)
         }
         return message

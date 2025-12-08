@@ -9,7 +9,6 @@ def main():
     settings = EnvironmentSettings.new_instance().in_streaming_mode().build()
     t_env = StreamTableEnvironment.create(env, environment_settings=settings)
 
-    # --- CORRECTION CRITIQUE ---
     # On charge explicitement les JARs depuis le volume partagé (usrlib)
     # Cela garantit que le JM et le TM les trouvent tous les deux.
     CURRENT_DIR = "/opt/flink/usrlib"
